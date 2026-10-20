@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../assets/jonnel-oliva.jpg';
+import { person, socials, nav } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<header class="mobile-bar">
+  <a href="#top" class="mobile-brand">
+    <Image src={photo} alt="" width={40} height={40} densities={[1, 2]} class="photo" />
+    <span>{person.name}</span>
+  </a>
+  <button class="icon-btn" id="menu-open" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
+    <i class="ph ph-list" aria-hidden="true"></i>
+  </button>
+</header>
+
+<aside class="sidebar" id="sidebar" aria-label="Profile and site navigation">
+  <button class="icon-btn sidebar-close" id="menu-close" aria-label="Close menu">
+    <i class="ph ph-x" aria-hidden="true"></i>
+  </button>
+
+  <div class="profile">
+    <Image class="avatar photo" src={photo} alt={`Portrait of ${person.name}`} width={150} height={150} densities={[1, 2]} loading="eager" fetchpriority="high" />
+    <p class="profile-name">
+      {person.name}
+      <i class="ph-fill ph-seal-check verified" role="img" aria-label="Verified" title="Verified"></i>
+    </p>
+    <p class="profile-role">{person.role}</p>
+    <p class="status"><span class="dot" aria-hidden="true"></span>{person.availability}</p>
+
+    <ul class="social" role="list">
+      {socials.map((s) => (
+        <li>
+          <a class="icon-btn" href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`${person.name} on ${s.label} (opens in new tab)`}>
+            <i class={`ph ${s.icon}`} aria-hidden="true"></i>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="a11y-controls" role="group" aria-label="Display settings">
+      <button class="icon-btn" id="theme-toggle" aria-label="Switch to dark mode">
+        <i class="ph ph-moon" aria-hidden="true"></i>
+      </button>
+      <button class="icon-btn text-size-btn" id="text-size" aria-label="Text size: normal. Click to make text larger">
+        <i class="ph ph-text-aa" aria-hidden="true"></i>
+        <span class="text-size-label">A+</span>
+      </button>
+    </div>
+  </div>
+
+  <nav aria-label="Main">
+    <ul class="nav-list" role="list">
+      {nav.map((item) => (
+        <li>
+          <a href={item.href} class="nav-link" data-nav>
+            <i class={`ph ${item.icon}`} aria-hidden="true"></i>
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <p class="copyright">© {year} {person.name}.<br />All rights reserved.</p>
+</aside>
+<div class="scrim" id="scrim" hidden></div>

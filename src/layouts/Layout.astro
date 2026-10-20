@@ -1,0 +1,119 @@
+---
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/500.css';
+import '@fontsource/poppins/600.css';
+import '@fontsource/poppins/700.css';
+import '@phosphor-icons/web/regular';
+import '@phosphor-icons/web/fill';
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import photo from '../assets/jonnel-oliva.jpg';
+import { person, socials, services } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+// BASE_URL is the GitHub Pages repo path (e.g. /jonnel-oliva-portfolio/)
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const siteUrl = new URL(base, Astro.site).toString();
+const ogImage = new URL(`${base}og-image.png`, Astro.site);
+const personImage = await getImage({ src: photo, width: 600, format: 'jpg' });
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${siteUrl}#person`,
+      name: person.name,
+      jobTitle: person.role,
+      description,
+      url: siteUrl,
+      email: `mailto:${person.email}`,
+      image: new URL(personImage.src, Astro.site).toString(),
+      address: { '@type': 'PostalAddress', addressCountry: person.location },
+      sameAs: socials.map((s) => s.href),
+      knowsAbout: ['Data Entry', 'Web Research', 'Administrative Support', 'Customer Service', 'GoHighLevel', 'Claude', 'ChatGPT', 'Gemini', 'AI Automation'],
+    },
+    {
+      '@type': 'ProfessionalService',
+      name: `${person.name} — ${person.role}`,
+      url: siteUrl,
+      provider: { '@id': `${siteUrl}#person` },
+      areaServed: 'Worldwide',
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Virtual Assistant Services',
+        itemListElement: services.map((s) => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: s.title, description: s.text },
+        })),
+      },
+    },
+    {
+      '@type': 'WebSite',
+      name: `${person.name} Portfolio`,
+      url: siteUrl,
+      inLanguage: 'en',
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={person.name} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
+    <link rel="manifest" href={`${base}site.webmanifest`} />
+    <link rel="sitemap" href={`${base}sitemap-index.xml`} />
+    <meta name="theme-color" content="#0b4f5c" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d1b1e" media="(prefers-color-scheme: dark)" />
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content={`${person.name} Portfolio`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${person.name} — ${person.role}`} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="profile:first_name" content="Jonnel" />
+    <meta property="profile:last_name" content="Oliva" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Apply saved theme + text size before paint to avoid a flash -->
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('theme');
+        if (t) document.documentElement.dataset.theme = t;
+        const s = localStorage.getItem('textScale');
+        if (s) document.documentElement.dataset.textScale = s;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <slot />
+  </body>
+</html>

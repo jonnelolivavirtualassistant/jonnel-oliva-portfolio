@@ -1,0 +1,358 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import HeroSculpture from '../components/HeroSculpture';
+import { Image } from 'astro:assets';
+import photo from '../assets/jonnel-oliva.jpg';
+import { person, socials, tools, services, projects, strengths } from '../data/site';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const title = 'Jonnel Oliva | Virtual Assistant for Data Entry, Research & Admin Support';
+const description =
+  'Jonnel Oliva is a reliable virtual assistant offering data entry, web research, admin support, customer service and GoHighLevel setup, using Claude, ChatGPT and Gemini to work faster.';
+---
+
+<Layout title={title} description={description}>
+  <!-- Full-screen liquid hero (React island, server-rendered so the headline is in the HTML for SEO) -->
+  <header id="top" class="hero-full">
+    <HeroSculpture
+      client:load
+      imageSrc={`${base}hero-portrait.webp`}
+      name={person.name}
+      role={person.role}
+      location={person.location}
+    />
+  </header>
+
+  <div class="shell">
+    <Sidebar />
+
+    <main id="main" tabindex="-1">
+      <!-- HOME / OVERVIEW -->
+      <section id="home" class="home" aria-label="Overview">
+      <!-- TOOLS MARQUEE -->
+      <div class="tools card" role="region" aria-labelledby="tools-title">
+        <div class="tools-label">
+          <p class="eyebrow">Daily drivers</p>
+          <h2 id="tools-title">Tools I work with</h2>
+        </div>
+        <div class="marquee" data-marquee>
+          <ul class="marquee-track" role="list">
+            {tools.map((t) => (
+              <li class="tool"><i class:list={['ph', t.icon, 'tool-logo', { 'is-gradient': t.gradient, 'is-ink': t.ink }]} style={t.gradient ? `--brand-gradient:${t.gradient}` : t.color ? `--brand:${t.color}` : undefined} aria-hidden="true"></i>{t.name}</li>
+            ))}
+          </ul>
+          <ul class="marquee-track" aria-hidden="true">
+            {tools.map((t) => (
+              <li class="tool"><i class:list={['ph', t.icon, 'tool-logo', { 'is-gradient': t.gradient, 'is-ink': t.ink }]} style={t.gradient ? `--brand-gradient:${t.gradient}` : t.color ? `--brand:${t.color}` : undefined} aria-hidden="true"></i>{t.name}</li>
+            ))}
+          </ul>
+        </div>
+        <button class="icon-btn marquee-toggle" id="marquee-toggle" aria-pressed="false" aria-label="Pause tools animation">
+          <i class="ph ph-pause" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <!-- BENTO OVERVIEW -->
+      <div class="bento" aria-label="Overview">
+        <a href="#projects" class="card bento-card bento-projects">
+          <div class="card-head">
+            <span class="badge-icon"><i class="ph ph-folder-open" aria-hidden="true"></i></span>
+            <h2 class="card-title">Projects</h2>
+          </div>
+          <p class="muted">Real tasks handled for real clients: clean data, useful research and smooth follow-ups.</p>
+          <ul class="mini-list" role="list">
+            {projects.slice(0, 3).map((p) => (
+              <li><i class={`ph ${p.icon}`} aria-hidden="true"></i>{p.title}</li>
+            ))}
+          </ul>
+          <span class="card-link">View projects <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+        </a>
+
+        <a href="#about" class="card bento-card bento-about">
+          <div class="card-head">
+            <span class="badge-icon"><i class="ph ph-user-circle" aria-hidden="true"></i></span>
+            <h2 class="card-title">About</h2>
+          </div>
+          <p class="muted">Who I am and how I work.</p>
+          <Image class="about-art photo" src={photo} alt="" width={120} height={120} densities={[1, 2]} />
+          <span class="card-link">Read more <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+        </a>
+
+        <div class="card bento-card bento-ai">
+          <div class="card-head">
+            <span class="badge-icon"><i class="ph ph-robot" aria-hidden="true"></i></span>
+            <h2 class="card-title">AI Toolkit</h2>
+          </div>
+          <p class="muted">AI helps me work faster. I check every result before it reaches you.</p>
+          <ul class="chips" role="list">
+            <li class="chip"><i class="ph ph-asterisk" aria-hidden="true"></i>Claude</li>
+            <li class="chip"><i class="ph ph-open-ai-logo" aria-hidden="true"></i>ChatGPT</li>
+            <li class="chip"><i class="ph ph-sparkle" aria-hidden="true"></i>Gemini</li>
+            <li class="chip"><i class="ph ph-rocket-launch" aria-hidden="true"></i>GHL</li>
+          </ul>
+        </div>
+
+        <a href="#services" class="card bento-card bento-services">
+          <div class="card-head">
+            <span class="badge-icon"><i class="ph ph-briefcase" aria-hidden="true"></i></span>
+            <h2 class="card-title">Services</h2>
+          </div>
+          <p class="muted">What I can take off your plate.</p>
+          <ol class="num-list">
+            {services.slice(0, 5).map((s, i) => (
+              <li>
+                <i class={`ph ${s.icon}`} aria-hidden="true"></i>
+                <span>{s.title}</span>
+                <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              </li>
+            ))}
+          </ol>
+        </a>
+
+        <div class="card bento-card bento-why">
+          <div class="card-head">
+            <span class="badge-icon"><i class="ph ph-handshake" aria-hidden="true"></i></span>
+            <h2 class="card-title">Why work with me</h2>
+          </div>
+          <ul class="check-list" role="list">
+            {strengths.map((s) => (
+              <li><i class={`ph ${s.icon}`} aria-hidden="true"></i>{s.text}</li>
+            ))}
+          </ul>
+        </div>
+
+        <a href="#contact" class="card bento-card bento-contact">
+          <div class="card-head">
+            <span class="badge-icon"><i class="ph ph-chat-circle-text" aria-hidden="true"></i></span>
+            <h2 class="card-title">Let's talk</h2>
+          </div>
+          <p class="muted">{person.hours}.</p>
+          <span class="status status-lg"><span class="dot" aria-hidden="true"></span>{person.availability}</span>
+          <span class="card-link">Contact me <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+        </a>
+      </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="section" aria-labelledby="projects-title">
+        <header class="section-head">
+          <p class="eyebrow">Selected work</p>
+          <h2 id="projects-title">Projects</h2>
+          <p class="lead">A few examples of the work I do and the results it brings.</p>
+        </header>
+        <div class="grid-2">
+          {projects.map((p) => (
+            <article class="card project">
+              <div class="card-head">
+                <span class="badge-icon"><i class={`ph ${p.icon}`} aria-hidden="true"></i></span>
+                <div>
+                  <p class="category">{p.category}</p>
+                  <h3>{p.title}</h3>
+                </div>
+              </div>
+              <p>{p.text}</p>
+              <ul class="tags" role="list" aria-label="Tools used">
+                {p.tags.map((t) => <li>{t}</li>)}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section id="services" class="section" aria-labelledby="services-title">
+        <header class="section-head">
+          <p class="eyebrow">How I can help</p>
+          <h2 id="services-title">Services</h2>
+          <p class="lead">Dependable support so you can focus on growing your business.</p>
+        </header>
+        <div class="grid-3">
+          {services.map((s, i) => (
+            <article class="card service">
+              <div class="service-top">
+                <span class="badge-icon"><i class={`ph ${s.icon}`} aria-hidden="true"></i></span>
+                <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              </div>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="section" aria-labelledby="about-title">
+        <header class="section-head">
+          <p class="eyebrow">Get to know me</p>
+          <h2 id="about-title">About</h2>
+        </header>
+        <div class="card about">
+          <Image class="about-photo photo" src={photo} alt={`Portrait of ${person.name}, smiling, wearing glasses and a navy blazer`} width={220} height={220} densities={[1, 2]} />
+          <div class="about-text">
+            <p>
+              I'm <strong>{person.name}</strong>, a virtual assistant based in the {person.location}. I support coaches,
+              agencies and small businesses with the work that keeps everything running: entering and cleaning data,
+              researching leads, managing inboxes and calendars, and answering customers with care.
+            </p>
+            <p>
+              I use AI tools like <strong>Claude, ChatGPT and Gemini</strong> to draft, summarise and research quickly,
+              and I set up contacts, pipelines and follow-ups in <strong>GoHighLevel</strong>. Every piece of work is
+              reviewed by me before it reaches you, so you get speed <em>and</em> accuracy.
+            </p>
+            <ul class="facts" role="list">
+              <li><i class="ph ph-map-pin" aria-hidden="true"></i>{person.location}</li>
+              <li><i class="ph ph-clock-countdown" aria-hidden="true"></i>{person.hours}</li>
+              <li><i class="ph ph-translate" aria-hidden="true"></i>English &amp; Filipino</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="section" aria-labelledby="contact-title">
+        <div class="card contact">
+          <div>
+            <p class="eyebrow">Let's work together</p>
+            <h2 id="contact-title">Contact</h2>
+            <p class="lead">
+              Need a hand with data, research, admin or customer support? Send me a message and I'll reply within one
+              business day.
+            </p>
+            <a class="btn btn-primary btn-lg" href={`mailto:${person.email}?subject=Virtual%20assistant%20enquiry`}>
+              <i class="ph ph-envelope-simple" aria-hidden="true"></i> Email me
+            </a>
+          </div>
+          <ul class="contact-list" role="list">
+            <li>
+              <i class="ph ph-envelope-simple" aria-hidden="true"></i>
+              <div><span class="muted">Email</span><a href={`mailto:${person.email}`}>{person.email}</a></div>
+            </li>
+            {socials.map((s) => (
+              <li>
+                <i class={`ph ${s.icon}`} aria-hidden="true"></i>
+                <div>
+                  <span class="muted">{s.label}</span>
+                  <a href={s.href} target="_blank" rel="noopener noreferrer">Message on {s.label}<span class="sr-only"> (opens in new tab)</span></a>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <p>© {new Date().getFullYear()} {person.name} · {person.role}</p>
+        <a href="#top" class="back-top">Back to top <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const save = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch {} };
+
+    // Theme toggle
+    const themeBtn = document.getElementById('theme-toggle')!;
+    const isDark = () =>
+      root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    const syncTheme = () => {
+      const dark = isDark();
+      themeBtn.innerHTML = `<i class="ph ${dark ? 'ph-sun' : 'ph-moon'}" aria-hidden="true"></i>`;
+      themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    };
+    themeBtn.addEventListener('click', () => {
+      const next = isDark() ? 'light' : 'dark';
+      root.dataset.theme = next;
+      save('theme', next);
+      syncTheme();
+    });
+    syncTheme();
+    // the hero's own switch also changes data-theme; keep this button's icon in step
+    new MutationObserver(syncTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+
+    // Text size: normal → large → extra large
+    const sizes = ['normal', 'large', 'xlarge'];
+    const sizeBtn = document.getElementById('text-size')!;
+    const syncSize = () => {
+      const cur = root.dataset.textScale || 'normal';
+      const next = sizes[(sizes.indexOf(cur) + 1) % sizes.length];
+      sizeBtn.querySelector('.text-size-label')!.textContent = next === 'normal' ? 'A' : next === 'large' ? 'A+' : 'A++';
+      sizeBtn.setAttribute('aria-label', `Text size: ${cur.replace('xlarge', 'extra large')}. Click for ${next.replace('xlarge', 'extra large')}`);
+    };
+    sizeBtn.addEventListener('click', () => {
+      const cur = root.dataset.textScale || 'normal';
+      const next = sizes[(sizes.indexOf(cur) + 1) % sizes.length];
+      root.dataset.textScale = next;
+      save('textScale', next);
+      syncSize();
+    });
+    syncSize();
+
+    // Marquee pause (WCAG 2.2.2)
+    const marquee = document.querySelector<HTMLElement>('[data-marquee]')!;
+    const mBtn = document.getElementById('marquee-toggle')!;
+    mBtn.addEventListener('click', () => {
+      const paused = marquee.classList.toggle('is-paused');
+      mBtn.setAttribute('aria-pressed', String(paused));
+      mBtn.setAttribute('aria-label', paused ? 'Play tools animation' : 'Pause tools animation');
+      mBtn.innerHTML = `<i class="ph ${paused ? 'ph-play' : 'ph-pause'}" aria-hidden="true"></i>`;
+    });
+
+    // Mobile menu: behaves as a modal dialog while open
+    const sidebar = document.getElementById('sidebar')!;
+    const scrim = document.getElementById('scrim')!;
+    const openBtn = document.getElementById('menu-open')!;
+    const background = ['top', 'main'].map((id) => document.getElementById(id)).concat(document.querySelector<HTMLElement>('.mobile-bar'));
+    let menuOpen = false;
+    const setMenu = (open: boolean, restoreFocus = true) => {
+      if (open === menuOpen) return;
+      menuOpen = open;
+      sidebar.classList.toggle('is-open', open);
+      scrim.hidden = !open;
+      openBtn.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
+      // the page behind can't be reached by keyboard or screen readers while the menu is open
+      background.forEach((el) => el?.toggleAttribute('inert', open));
+      if (open) {
+        sidebar.setAttribute('role', 'dialog');
+        sidebar.setAttribute('aria-modal', 'true');
+        document.getElementById('menu-close')!.focus();
+      } else {
+        sidebar.removeAttribute('role');
+        sidebar.removeAttribute('aria-modal');
+        if (restoreFocus) openBtn.focus();
+      }
+    };
+    openBtn.addEventListener('click', () => setMenu(true));
+    document.getElementById('menu-close')!.addEventListener('click', () => setMenu(false));
+    scrim.addEventListener('click', () => setMenu(false));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuOpen) setMenu(false); });
+    // following a link moves focus to that section, so don't pull it back to the button
+    sidebar.querySelectorAll('[data-nav]').forEach((a) => a.addEventListener('click', () => setMenu(false, false)));
+    // rotating a tablet to desktop width closes the drawer
+    matchMedia('(min-width: 1025px)').addEventListener('change', (e) => { if (e.matches) setMenu(false, false); });
+
+    // Highlight the current section in the nav
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav]')];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((l) => {
+            const id = entry.target.id === 'home' ? 'top' : entry.target.id;
+            const active = l.getAttribute('href') === `#${id}`;
+            l.classList.toggle('is-active', active);
+            if (active) l.setAttribute('aria-current', 'location');
+            else l.removeAttribute('aria-current');
+          });
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    );
+    ['top', 'home', 'projects', 'services', 'about', 'contact'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  </script>
+</Layout>
