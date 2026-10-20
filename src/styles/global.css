@@ -256,6 +256,11 @@ main:focus { outline: none; }
    Larger type and controls for readability; colours from the site tokens.
    ========================================================= */
 .hero-full { position: relative; }
+/* Theme colours from the site tokens, so the right theme shows before the hero's script runs */
+.hero-full .sh-root { background: var(--bg); color: var(--text); }
+.hero-full .sh-accent { color: var(--olive); }
+/* The photo is positioned by script; keep it hidden until then so it never flashes at full size */
+.hero-full .sh-fallback:not([style]) { visibility: hidden; }
 .hero-full .sh-root { font-size: 1rem; }
 .hero-full .sh-brand { font-size: 1.15rem; font-weight: 700; }
 .hero-full .sh-link { font-size: 1rem; font-weight: 500; opacity: 0.85; display: inline-flex; align-items: center; min-height: 44px; }
